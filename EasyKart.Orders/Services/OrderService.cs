@@ -19,7 +19,9 @@ namespace EasyKart.Orders.Services
 
         public async Task<List<Order>> GetOrdersByUserId(Guid userId)
         {
-            return await _orderRepository.GetOrdersByUserId(userId);
+            var orders = await _orderRepository.GetOrdersByUserId(userId);
+            //sort orders by date
+            return orders.OrderByDescending(o => o.CreatedDate).ToList();
         }
     }
 }
