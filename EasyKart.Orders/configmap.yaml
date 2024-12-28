@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: easy-kart-orders-config-map
+  namespace: easy-kart
+data:
+  sqlconnstr: ""

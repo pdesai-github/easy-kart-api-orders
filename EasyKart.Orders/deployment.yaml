@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: easy-kart-orders
+  namespace: easy-kart
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: easy-kart-orders #This should be same label
+  template:
+    metadata:
+      labels:
+        app: easy-kart-orders #This should be same label
+    spec:
+      containers:
+      - name: easy-kart-orders
+        image: pdesaidocker/easy-kart-api-orders:{{imageTag}}
+        ports:
+        - containerPort: 8080 #port defined in image dockerfile
+        env:
+        - name: ConnectionStrings__DefaultConnection
+          valueFrom:
+            configMapKeyRef:
+              name: easy-kart-orders-config-map # ConfigMap name
+              key: sqlconnstr         # Key in the ConfigMap
+     
