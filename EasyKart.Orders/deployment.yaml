@@ -24,4 +24,9 @@ spec:
             configMapKeyRef:
               name: easy-kart-orders-config-map # ConfigMap name
               key: sqlconnstr         # Key in the ConfigMap
+        - name: ConnectionStrings__AzureServiceBus
+          valueFrom:
+            configMapKeyRef:
+              name: easy-kart-orders-config-map # ConfigMap name
+              key: azservicebusconnstr         # Key in the ConfigMap
      

@@ -23,8 +23,17 @@ namespace EasyKart.Orders.Controllers
         [HttpGet("{userId}")]
         public async Task<IActionResult> GetOrdersByUserId(Guid userId)
         {
-            var orders = await _orderService.GetOrdersByUserId(userId);
-            return Ok(orders);
+            try
+            {
+                var orders = await _orderService.GetOrdersByUserId(userId);
+                return Ok(orders);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError);
+
+            }
+           
         }
     }
 }

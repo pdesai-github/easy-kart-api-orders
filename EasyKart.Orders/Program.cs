@@ -1,6 +1,10 @@
 
+using EasyKart.Orders.Consumers;
 using EasyKart.Orders.Repositories;
 using EasyKart.Orders.Services;
+using EasyKart.Shared.Commands;
+using EasyKart.Shared.Events;
+using MassTransit;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using System;
@@ -26,6 +30,30 @@ namespace EasyKart.Orders
                            .AllowAnyMethod()
                            .AllowAnyHeader()
                            .AllowCredentials();
+                });
+            });
+
+            builder.Services.AddMassTransit((x) => 
+            {
+                x.AddConsumer<UpdateOrderCommandConsumer>();
+                x.UsingAzureServiceBus((context, config) => 
+                {
+                    config.Host(builder.Configuration.GetConnectionString("AzureServiceBus"));
+
+                  
+                    config.Message<OrderCreatedEvent>(configTopology =>
+                    {
+                        configTopology.SetEntityName("ordercreated");
+                    });
+                    config.Message<UpdateOrderCommand>(configTopology =>
+                    {
+                        configTopology.SetEntityName("ordercreated");
+                    });
+
+                    config.SubscriptionEndpoint("UpdateOrderCommandConsumerSubscription", "ordercreated", e =>
+                    {
+                        e.ConfigureConsumer<UpdateOrderCommandConsumer>(context);
+                    });
                 });
             });
 

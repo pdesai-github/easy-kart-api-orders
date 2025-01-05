@@ -6,5 +6,6 @@ namespace EasyKart.Orders.Repositories
     {
         Task AddOrderAsync(Order order);
         Task<List<Order>> GetOrdersByUserId(Guid userId);
+        Task UpdateOrderAsync(Order order);
     }
 }

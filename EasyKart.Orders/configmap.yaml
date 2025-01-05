@@ -5,3 +5,4 @@ metadata:
   namespace: easy-kart
 data:
   sqlconnstr: ""
+  azservicebusconnstr: ""

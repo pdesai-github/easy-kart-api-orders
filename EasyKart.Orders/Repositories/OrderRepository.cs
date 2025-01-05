@@ -35,5 +35,19 @@ namespace EasyKart.Orders.Repositories
                 .ToListAsync();
             return orders;
         }
+
+        // update order
+        public async Task UpdateOrderAsync(Order order)
+        {
+            try
+            {
+                _context.Orders.Update(order);
+                await _context.SaveChangesAsync();
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+        }
     }
 }
