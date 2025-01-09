@@ -1,4 +1,5 @@
 
+using EasyKart.Orders.CircuitBreaker;
 using EasyKart.Orders.Consumers;
 using EasyKart.Orders.Repositories;
 using EasyKart.Orders.Services;
@@ -21,6 +22,8 @@ namespace EasyKart.Orders
             // Add services to the container.
             builder.Services.AddDbContext<OrdersDBContext>(options =>
                 options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+            builder.Services.AddSingleton(DatabaseRetryPolicy.GetRetryPolicy());
+
 
             builder.Services.AddCors(options =>
             {
