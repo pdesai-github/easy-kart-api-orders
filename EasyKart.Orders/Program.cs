@@ -1,14 +1,10 @@
 
-using EasyKart.Orders.CircuitBreaker;
 using EasyKart.Orders.Consumers;
 using EasyKart.Orders.Repositories;
 using EasyKart.Orders.Services;
 using EasyKart.Shared.Commands;
 using EasyKart.Shared.Events;
 using MassTransit;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
-using System;
 
 namespace EasyKart.Orders
 {
@@ -18,12 +14,6 @@ namespace EasyKart.Orders
         {
             var builder = WebApplication.CreateBuilder(args);
             var allowedOrigins = builder.Configuration.GetSection("CorsSettings:AllowedOrigins").Get<string[]>();
-
-            // Add services to the container.
-            builder.Services.AddDbContext<OrdersDBContext>(options =>
-                options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
-            builder.Services.AddSingleton(DatabaseRetryPolicy.GetRetryPolicy());
-
 
             builder.Services.AddCors(options =>
             {
